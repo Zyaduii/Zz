@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبر معلوماتك العامة</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #f4f7f9; }
+        h1 { color: #005a8d; }
+        .question { margin: 20px; font-size: 18px; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; background-color: #005a8d; color: white; border: none; border-radius: 8px; cursor: pointer; }
+        button:hover { background-color: #004070; }
+        #result { font-size: 18px; margin-top: 20px; }
+        .correct { color: green; }
+        .incorrect { color: red; }
+    </style>
+</head>
+<body>
+    <h1>اختبر معلوماتك العامة</h1>
+    <div class="question">
+        <p id="question">السؤال سيظهر هنا</p>
+        <button onclick="checkAnswer('الإجابة الصحيحة')">الإجابة الصحيحة</button>
+        <button onclick="checkAnswer('إجابة خاطئة 1')">إجابة خاطئة 1</button>
+        <button onclick="checkAnswer('إجابة خاطئة 2')">إجابة خاطئة 2</button>
+        <button onclick="checkAnswer('إجابة خاطئة 3')">إجابة خاطئة 3</button>
+    </div>
+    <p id="result"></p>
+
+    <script>
+        const questions = [
+            { question: "ما هو أكبر كوكب في المجموعة الشمسية؟", answers: ["الأرض", "المريخ", "زحل", "المشتري"], correctAnswer: "المشتري" },
+            { question: "ما هي عاصمة فرنسا؟", answers: ["باريس", "برلين", "لندن", "روما"], correctAnswer: "باريس" },
+            { question: "كم عدد ألوان قوس قزح؟", answers: ["5", "6", "7", "8"], correctAnswer: "7" },
+            { question: "ما هو أطول نهر في العالم؟", answers: ["النيل", "الأمازون", "الدانوب", "الفرات"], correctAnswer: "النيل" },
+            { question: "من هو مخترع المصباح الكهربائي؟", answers: ["نيكولا تسلا", "توماس إديسون", "ألبرت أينشتاين", "إسحاق نيوتن"], correctAnswer: "توماس إديسون" },
+            { question: "كم عدد أيام السنة الكبيسة؟", answers: ["365", "366", "364", "367"], correctAnswer: "366" },
+            { question: "ما هو أكبر حيوان بري في العالم؟", answers: ["الفيل", "الزرافة", "الدب البني", "الأسد"], correctAnswer: "الفيل" },
+            { question: "ما هو أقوى عضلة في جسم الإنسان؟", answers: ["عضلة القلب", "عضلة الفخذ", "عضلة اللسان", "عضلة البطن"], correctAnswer: "عضلة اللسان" },
+            { question: "من هو مؤلف رواية 1984؟", answers: ["جورج أورويل", "ويليام شكسبير", "إرنست همنغواي", "فيودور دوستويفسكي"], correctAnswer: "جورج أورويل" },
+            { question: "ما هي عاصمة اليابان؟", answers: ["كيوتو", "أوساكا", "طوكيو", "هوكايدو"], correctAnswer: "طوكيو" },
+            { question: "ما هي اللغة الرسمية في البرازيل؟", answers: ["البرتغالية", "الإسبانية", "الإنجليزية", "الفرنسية"], correctAnswer: "البرتغالية" },
+            { question: "ما هو أقرب كوكب إلى الشمس؟", answers: ["الأرض", "الزهرة", "عطارد", "المريخ"], correctAnswer: "عطارد" },
+            { question: "ما هو أطول جسر في العالم؟", answers: ["جسر دانيانغ-كونشان", "جسر البوابة الذهبية", "جسر برج لندن", "جسر أكاشي كايكيو"], correctAnswer: "جسر دانيانغ-كونشان" },
+            { question: "ما هي أكبر قارة في العالم؟", answers: ["أفريقيا", "آسيا", "أمريكا الشمالية", "أوروبا"], correctAnswer: "آسيا" },
+            { question: "من هو أول إنسان سار على سطح القمر؟", answers: ["نيل أرمسترونغ", "يوجي كوسودا", "آلان شيبرد", "باز ألدرين"], correctAnswer: "نيل أرمسترونغ" },
+            { question: "ما هو أكبر بحر في العالم؟", answers: ["بحر الصين الجنوبي", "بحر الشمال", "البحر الأبيض المتوسط", "بحر اليابان"], correctAnswer: "بحر الصين الجنوبي" },
+            { question: "ما هي أطول فترة حكم ملكية في تاريخ المملكة المتحدة؟", answers: ["الملكة إليزابيث الثانية", "الملكة فيكتوريا", "الملك جورج الثالث", "الملك هنري الثامن"], correctAnswer: "الملكة إليزابيث الثانية" },
+            { question: "ما هو أكبر محيط في العالم؟", answers: ["المحيط الأطلسي", "المحيط الهادئ", "المحيط الهندي", "المحيط القطبي"], correctAnswer: "المحيط الهادئ" },
+            { question: "ما هو تاريخ استقلال الولايات المتحدة الأمريكية؟", answers: ["1776", "1789", "1800", "1812"], correctAnswer: "1776" },
+            { question: "ما هي أصغر دولة في العالم؟", answers: ["سان مارينو", "الفاتيكان", "موناكو", "ليختنشتاين"], correctAnswer: "الفاتيكان" },
+            { question: "ما هو علم الفلك؟", answers: ["دراسة النباتات", "دراسة الفضاء والأجرام السماوية", "دراسة الحياة البرية", "دراسة البحار والمحيطات"], correctAnswer: "دراسة الفضاء والأجرام السماوية" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                const currentQuestion = questions[currentQuestionIndex];
+                document.getElementById("question").textContent = currentQuestion.question;
+
+                const answersContainer = document.querySelectorAll("button");
+                answersContainer.forEach((button, index) => {
+                    button.textContent = currentQuestion.answers[index];
+                    button.onclick = () => checkAnswer(currentQuestion.answers[index], currentQuestion.correctAnswer);
+                });
+
+                document.getElementById("result").textContent = "";
+            } else {
+                showFinalScore();
+            }
+        }
+
+        function checkAnswer(selectedAnswer, correctAnswer) {
+            const result = document.getElementById("result");
+            if (selectedAnswer === correctAnswer) {
+                result.textContent = "إجابة صحيحة! 🎉";
+                result.className = "correct";
+                score++;
+            } else {
+                result.textContent = "إجابة خاطئة! حاول مرة أخرى.";
+                result.className = "incorrect";
+            }
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                loadQuestion();
+            }, 1500);
+        }
+
+        function showFinalScore() {
+            document.getElementById("question").textContent = "انتهت الأسئلة!";
+            document.getElementById("result").textContent = `لقد أجبت على ${score} من ${questions.length} أسئلة بشكل صحيح.`;
+            document.querySelector(".question").innerHTML = `<button onclick="restartQuiz()">إعادة الاختبار</button>`;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
